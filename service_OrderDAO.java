@@ -85,11 +85,11 @@ public class service_OrderDAO {
 
 			// Ghi nhận thay đổi vào cơ sở dữ liệu
 			conn.commit();
-			System.out.println("✅ Tạo đơn hàng thành công!");
+			System.out.println("Tạo đơn hàng thành công!");
 		} catch (Exception e) {
 			// Nếu có lỗi, quay lui (rollback) lại toàn bộ
 			conn.rollback();
-			System.out.println("❌ Lỗi khi tạo đơn hàng: " + e.getMessage());
+			System.out.println("Lỗi khi tạo đơn hàng: " + e.getMessage());
 		} finally {
 			// Đảm bảo đóng kết nối và bật lại chế độ tự động commit
 			conn.setAutoCommit(true);
@@ -110,16 +110,14 @@ public class service_OrderDAO {
 			Date day = rs.getDate("order_Day");
 			double total = rs.getDouble("total_Amount");
 
-			System.out
-					.println("📦 Order ID: " + id + ", Customer: " + customer + ", Date: " + day + ", Total: " + total);
+			System.out.println("Order ID: " + id + ", Customer: " + customer + ", Date: " + day + ", Total: " + total);
 
 			// Hiển thị chi tiết từng đơn hàng
 			PreparedStatement stmtDetail = conn.prepareStatement("SELECT * FROM OrderDetails WHERE order_ID = ?");
 			stmtDetail.setInt(1, id);
 			ResultSet rsDetail = stmtDetail.executeQuery();
 			while (rsDetail.next()) {
-				System.out.println("   🔸 Product ID: " + rsDetail.getInt("product_ID") + ", Quantity: "
-						+ rsDetail.getInt("quantity") + ", Total: " + rsDetail.getDouble("totalAmount"));
+				System.out.println("Product ID: " + rsDetail.getInt("product_ID") + ", Quantity: "+ rsDetail.getInt("quantity") + ", Total: " + rsDetail.getDouble("totalAmount"));
 			}
 		}
 		conn.close();
