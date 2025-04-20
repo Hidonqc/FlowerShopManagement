@@ -59,8 +59,7 @@ public class service_OrderDAO {
 			for (module_OrderDetail d : details) {
 				// Lấy giá sản phẩm từ bảng Products
 				double price = 0;
-				PreparedStatement priceStmt = conn
-						.prepareStatement("SELECT product_Price FROM Products WHERE product_ID = ?");
+				PreparedStatement priceStmt = conn.prepareStatement("SELECT product_Price FROM Products WHERE product_ID = ?");
 				priceStmt.setInt(1, d.getProduct_ID());
 				ResultSet rsPrice = priceStmt.executeQuery();
 				if (rsPrice.next()) {
@@ -76,8 +75,7 @@ public class service_OrderDAO {
 				insertDetail.executeUpdate();
 
 				// Trừ tồn kho
-				PreparedStatement updateStock = conn
-						.prepareStatement("UPDATE Products SET product_Stock = product_Stock - ? WHERE product_ID = ?");
+				PreparedStatement updateStock = conn.prepareStatement("UPDATE Products SET product_Stock = product_Stock - ? WHERE product_ID = ?");
 				updateStock.setInt(1, d.getQuantity());
 				updateStock.setInt(2, d.getProduct_ID());
 				updateStock.executeUpdate();
