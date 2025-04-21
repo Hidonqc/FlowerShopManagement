@@ -37,6 +37,20 @@ GO
 		FOREIGN KEY (order_ID) REFERENCES Orders(order_ID),
 		FOREIGN KEY (product_ID) REFERENCES Products(product_ID)
 	);
+-- Thêm cột product_Name vào bảng OrderDetails
+ALTER TABLE OrderDetails
+ADD product_Name NVARCHAR(250) NULL;
+
+-- Cập nhật giá trị của product_Name từ bảng Products vào bảng OrderDetails
+UPDATE OrderDetails
+SET product_Name = p.product_Name
+FROM OrderDetails od
+JOIN Products p ON od.product_ID = p.product_ID;
+
+--Sau khi cập nhật xong, đổi cột product_Name thành NOT NULL 
+ALTER TABLE OrderDetails
+ALTER COLUMN product_Name NVARCHAR(250) NOT NULL;
+
 
 -- Thêm 50 dữ liệu bảng Customer
 INSERT INTO Customers (customer_ID, customer_Name) 
