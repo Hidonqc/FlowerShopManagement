@@ -19,6 +19,17 @@ public class module_Order {
 		this.total_Amount = total_Amount;
 	}
 
+	 // Auto-constructor: Constructor mặc định
+    	public module_Order() {
+        // Giá trị mặc định cho các trường
+        	this.order_ID = 0;
+        	this.customer_Name = "Chưa xác định";
+        	this.customer_ID = 0;
+        	this.order_Day = new Date(System.currentTimeMillis()); // Ngày hiện tại
+	        this.total_Amount = 0.0;
+    }
+
+
 	// Các getter và setter (hàm lấy và gán giá trị)
 	public int getOrder_ID() {
 		return order_ID;
