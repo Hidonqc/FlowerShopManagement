@@ -1,9 +1,7 @@
 package FlowerShop.Model;
 
-// Model Người dùng của hệ thống
 public class ModelUser {
-
-    private int ID_User;  // ID tài khoản
+	private int ID_User;  // ID tài khoản
     private String email;  // Email
     private String password; // Mật khẩu
     private String verifyCode; // Mã xác minh

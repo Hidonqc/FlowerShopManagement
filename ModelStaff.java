@@ -1,8 +1,7 @@
 package FlowerShop.Model;
 
-public class ModelStaff {
-
-    public int getID_Staff() {
+public class ModelStaff extends ModelUser {
+	public int getID_Staff() {
         return ID_Staff;
     }
 
@@ -67,4 +66,3 @@ public class ModelStaff {
     private String role;
     private int ID_Manager;
 }
-

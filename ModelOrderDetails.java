@@ -1,8 +1,7 @@
 package FlowerShop.Model;
 
 public class ModelOrderDetails {
-
-    public int getorder_ID() {
+	public int getorder_ID() {
         return order_ID;
     }
     public void setorder_ID(int order_ID){

@@ -1,5 +1,4 @@
 package FlowerShop.Controller.Service;
-
 import FlowerShop.Controller.Connection.DatabaseConnection;
 import FlowerShop.Model.*;
 import FlowerShop.View.AbsAdmin;
@@ -8,17 +7,17 @@ import java.sql.*;
 import java.util.*;
 import java.util.Date;
 
-public  class ServiceAdmin implements AbsAdmin {
+public class ServiceAdmin implements AbsAdmin {
+	private final Connection con;
 
-    private final Connection con;
-
-    public ServiceAdmin() {
+    public ServiceAdmin() throws SQLException {
         this.con = DatabaseConnection.getInstance().getConnection();
     }
     @Override
     public List<ModelStaff> getAllStaff() {
         List<ModelStaff> staffList = new ArrayList<>();
-        String sql = "{call sp_GetAllStaff()}";
+        String sql = "{call getAllStaff}";
+
 
         try (CallableStatement cstmt = con.prepareCall(sql);
              ResultSet rs = cstmt.executeQuery()) {
@@ -45,7 +44,7 @@ public  class ServiceAdmin implements AbsAdmin {
 
     @Override
     public boolean addStaff(ModelStaff staff) {
-        String sql = "{call sp_AddStaff(?, ?, ?, ?, ?)}";
+        String sql = "{call addStaff(?, ?, ?, ?, ?)}";
 
         try (CallableStatement cstmt = con.prepareCall(sql)) {
             cstmt.setInt(1, staff.getID_Staff());
@@ -63,7 +62,7 @@ public  class ServiceAdmin implements AbsAdmin {
     }
     @Override
     public boolean updateStaff(ModelStaff staff) {
-        String sql = "{call sp_UpdateStaff(?, ?, ?, ?)}";
+        String sql = "{call updateStaff(?, ?, ?, ?)}";
 
         try (CallableStatement cstmt = con.prepareCall(sql)) {
             cstmt.setInt(1, staff.getID_Staff());
@@ -80,13 +79,13 @@ public  class ServiceAdmin implements AbsAdmin {
     }
 
     public ModelStaff getID_Staff(int staffId) {
-        String sql = "SELECT * FROM Staff WHERE id = ?";
+        String sql = "SELECT * FROM Staff WHERE ID_Staff = ?";
         try (PreparedStatement stmt = con.prepareStatement(sql)) {
             stmt.setInt(1, staffId);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     ModelStaff staff = new ModelStaff();
-                    staff.setID_Staff(rs.getInt("id"));
+                    staff.setID_Staff(rs.getInt("ID_Staff"));
                     staff.setNameStaff(rs.getString("name"));
                     staff.setDateJoin(rs.getString("join_date"));
                     staff.setPhoneNumber(rs.getString("phone"));
@@ -133,7 +132,7 @@ public  class ServiceAdmin implements AbsAdmin {
     @Override
     public Map<String, Double> getRevenueReport(String period, Date date) {
         Map<String, Double> report = new LinkedHashMap<>();
-        String sql = "{call sp_RevenueReportByPeriod(?, ?)}";
+        String sql = "{call getRevenueReport(?, ?)}";
 
         try (CallableStatement cstmt = con.prepareCall(sql)) {
             cstmt.setString(1, period);
@@ -154,7 +153,7 @@ public  class ServiceAdmin implements AbsAdmin {
     @Override
     public List<ModelProduct> getAllProducts() throws SQLException {
         List<ModelProduct> products = new ArrayList<>();
-        String sql = "{call sp_GetAllProducts()}";
+        String sql = "{call getAllProducts()}";
 
         try (CallableStatement cstmt = con.prepareCall(sql);
              ResultSet rs = cstmt.executeQuery()) {
@@ -179,7 +178,7 @@ public  class ServiceAdmin implements AbsAdmin {
 
     @Override
     public boolean addProduct(ModelProduct product) throws SQLException {
-        String sql = "{call sp_AddProduct(?, ?, ?, ?, ?, ?)}";
+        String sql = "{call addProduct(?, ?, ?, ?, ?, ?)}";
         try (CallableStatement cstmt = con.prepareCall(sql)) {
             cstmt.setInt(1, generateNewProductId());
             cstmt.setString(2, product.getProductName());
@@ -194,7 +193,7 @@ public  class ServiceAdmin implements AbsAdmin {
 
     @Override
     public boolean updateProduct(ModelProduct product) throws SQLException {
-        String sql = "{call sp_UpdateProduct(?, ?, ?, ?, ?, ?)}";
+        String sql = "{call updateProduct(?, ?, ?, ?, ?, ?)}";
         try (CallableStatement cstmt = con.prepareCall(sql)) {
             cstmt.setInt(1, product.getProductID());
             cstmt.setString(2, product.getProductName());
@@ -234,7 +233,7 @@ public  class ServiceAdmin implements AbsAdmin {
     @Override
     public List<ModelProductSales> getProductStatistics() {
         List<ModelProductSales> salesList = new ArrayList<>();
-        String sql = "{call sp_GetProductStatistics()}";
+        String sql = "{call getProductStatistics()}";
 
         try (CallableStatement cstmt = con.prepareCall(sql);
              ResultSet rs = cstmt.executeQuery()) {
@@ -265,15 +264,15 @@ public  class ServiceAdmin implements AbsAdmin {
     }
 
     @Override
-    public List<ModelCustomers> getAllCustomers() throws SQLException {
-        List<ModelCustomers> customers = new ArrayList<>();
+    public List<ModelCustomer> getAllCustomers() throws SQLException {
+        List<ModelCustomer> customers = new ArrayList<>();
         String sql = "{call sp_GetAllCustomers()}";
 
         try (CallableStatement cstmt = con.prepareCall(sql);
              ResultSet rs = cstmt.executeQuery()) {
 
             while (rs.next()) {
-                customers.add(new ModelCustomers(
+                customers.add(new ModelCustomer(
                         rs.getInt("customer_id"),
                         rs.getString("getCustomer_Name"),
                         rs.getString("joinDate")

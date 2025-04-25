@@ -1,20 +1,21 @@
 package FlowerShop.View;
-
 import FlowerShop.Model.*;
 
 import java.sql.SQLException;
 import java.util.List;
 
+
+
 public interface AbsStaff {
-    // ==================== NHÂN VIÊN ====================
+	 // ==================== NHÂN VIÊN ====================
     ModelStaff getStaffInfo(int userID) throws SQLException;
 
     boolean updateStaffName(int userId, String newName) throws SQLException;
 
     // ==================== KHÁCH HÀNG ====================
-    List<ModelCustomers> getAllCustomers() throws SQLException;
+    List<ModelCustomer> getAllCustomers() throws SQLException;
 
-    ModelCustomers getCustomerName(int customerId) throws SQLException;
+    ModelCustomer getCustomerName(int customerId) throws SQLException;
 
     // ==================== ĐƠN HÀNG ====================
     int createOrder(int customerId, int staffId) throws SQLException;
@@ -27,6 +28,3 @@ public interface AbsStaff {
 
     List<ModelOrderDetails> getOrderDetails(int orderId) throws SQLException;
 }
-
-
-
